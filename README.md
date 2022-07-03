@@ -30,11 +30,11 @@ The sample YAML configuration file has plenty of notes to help explain the setup
        Step 4.1 (Linux Ubuntu): Set up a service to run the program.
             Step 4.1.1:  Create a new service file.
                 Run: cd /lib/systemd/system
-                Run: sudo nano transmission_remove.service
+                Run: sudo nano transmission_ext.service
                     Note1: The service account needs to have docker socket access. The root user is added below as an example.
                     Note2: A delayed start can help ensure all processes start before monitoring starts. Your "TimeoutStartSec" must be greater than the "ExecStartPre".
                     Paste:
-                        Description=transmission_remove
+                        Description=transmission_ext
                         After=multi-user.target
                         After=network.target
 
@@ -43,8 +43,8 @@ The sample YAML configuration file has plenty of notes to help explain the setup
                         User=root
                         TimeoutStartSec=240
                         ExecStartPre=/bin/sleep 120
-                        WorkingDirectory=/<path to program>/transmission_remove/src
-                        ExecStart=/usr/bin/python3  /<path to program>/transmission_remove/src/transmission_remove.py                                                         
+                        WorkingDirectory=/<path to program>/transmission_ext/src
+                        ExecStart=/usr/bin/python3  /<path to program>/transmission_ext/src/launch.py                                                         
                         Restart=no
 
                         [Install]
@@ -52,12 +52,11 @@ The sample YAML configuration file has plenty of notes to help explain the setup
             Step 4.1.2:  Create a new service file.
                 Run: sudo systemctl daemon-reload
             Step 4.1.3: Enable the new service.
-                sudo systemctl enable transmission_remove.service
+                sudo systemctl enable transmission_ext.service
             Step 4.1.4: Start the new service.
-                sudo systemctl start transmission_remove.service
+                sudo systemctl start transmission_ext.service
             Step 4.1.5: Check the status of the new service.
-                sudo systemctl status transmission_remove.service
+                sudo systemctl status transmission_ext.service
     Step 5: Verify the program is running as a service or scheduled task. 
-    Step 6: Once verified, you should set the logging handler to option 2 and the file's log level to INFO. This will cut down on disk space.
 ## Troubleshooting:
 The YAML file offers DEBUG options to troubleshoot any issues you encounter. Please report any bugs.
