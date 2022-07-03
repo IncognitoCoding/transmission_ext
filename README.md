@@ -2,7 +2,7 @@
 transmission_ext is a customizable transmission torrent extension program for use on Linux systems. It is designed to be simple to use but effective in extending options within Transmission, such as monitoring and removing torrents. Transmission_ext uses transmission-remote to add the additional options to Transmission. Transmission can be installed/controlled on any supported Transmission OS, but transmission_ext must run on a Linux OS. All configuration is set up through a simple YAML configuration file.
 
 ## Current Options:
-* Removing torrents from Transmission and the save directory. 
+* Removing torrents from Transmission and the save directories based on a pre-set share ratio.
 
 ## Program Highlights:
 * Requires no code modifications for use.
