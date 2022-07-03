@@ -1,0 +1,26 @@
+# Virtual Environments
+venv/
+.venv*/
+.conda*/
+
+# Project Content
+.vscode/
+
+# Package Files
+*.egg
+*.eggs/
+.installed.cfg
+*.egg-info
+
+# Distribution and Build Files
+dist/*
+
+# Temp Files
+__pycache__/
+.cache/*
+.*.swp
+.DS_Store
+settings.yaml
+*.log
+.coverage
+htmlcov

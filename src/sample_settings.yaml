@@ -1,0 +1,97 @@
+general:
+  # Add the number of seconds to sleep between removal checks
+  remove_sleep: 60
+  # True: enabled, False: disabled
+  email_alerts: True
+  # Sends email alerts with program crashes
+  # True: enabled, False: disabled
+  alert_program_errors: True
+
+connection:
+  # Server string: "host:port --auth username:password"
+  server: "x.x.x.x:9091 --auth <username>:<password" 
+
+removal:
+  # Set the torrent ratio that needs meet to delete
+  # Note: You must set transmission to this ratio level or the match may not happen
+  removal_ratio: 2.0
+  # Root path of /downloads
+  # Full Path: /mymedia/mediashare/downloads/complete/sonarr
+  # Root Path Example: /mymedia/mediashare
+  root_download_path: /mymedia/mediashare
+
+email:
+  smtp: smtp.yourdomain.com
+  # True: enabled, False: disabled
+  authentication_required: False
+  username: SMTP_username
+  # Leave blank if not required
+  password: SMTP_password
+  # True: Use TLS on port 587, False: Standard port 25
+  use_tls: False
+  from_email: transmission_remove@monitoring.me
+  to_email: youremail@monitoring.me
+
+
+# #############################################################################################
+# #####################################Logging Settings Below##################################
+# #############################################################################################
+version: 1
+disable_existing_loggers: False
+formatters:
+  simple:
+    format: "%(asctime)s|%(levelname)s|%(message)s (Module:%(module)s, Function:%(funcName)s, Line:%(lineno)s)"
+    datefmt: "%Y-%m-%d %H:%M:%S"
+  flowchart:
+    format: "Function: %(funcName)s   Module: %(module)s   Time: %(asctime)s    Line: %(lineno)s"
+    datefmt: "%Y-%m-%d %H:%M:%S"
+
+handlers:
+  console:
+    class: logging.StreamHandler
+    level: INFO
+    formatter: simple
+    stream: ext://sys.stdout
+  transmission_remove_log_file:
+    class: logging.handlers.RotatingFileHandler
+    level: DEBUG
+    formatter: simple
+    # Default log paths are possible by typing DEFAULT in all caps. Manual paths can be entered as usual.
+    # The default path option is only available when using the log_director function from ictoolkit.
+    filename: DEFAULT
+    # Sets max log file size to 10000 bytes (1 Megabyte)
+    maxBytes: 2000000
+    backupCount: 40
+    encoding: utf8
+  transmission_remove_flowchart_log_file:
+    class: logging.handlers.RotatingFileHandler
+    level: INFO
+    formatter: flowchart
+    # Default log paths are possible by typing DEFAULT in all caps. Manual paths can be entered as usual.
+    # The default path option is only available when using the log_director function from ictoolkit.
+    # A user can define DEFAULT path logs by added :<log name> to the end of DEFAULT.
+    filename: DEFAULT:flowchart
+    # Sets max log file size to 10000 bytes (1 Megabyte)
+    maxBytes: 2000000
+    backupCount: 40
+    encoding: utf8
+
+loggers:
+  flowchart:
+    level: INFO
+    handlers: [transmission_remove_flowchart_log_file]
+    propagate: no
+  __main__:
+    level: INFO
+    handlers: [console, transmission_remove_log_file]
+    propagate: no
+  ictoolkit:
+    level: WARNING
+    handlers: [console, transmission_remove_log_file]
+    propagate: no
+
+root:
+  level: INFO
+  handlers: [console]
+# #############################################################################################
+# #############################################################################################
