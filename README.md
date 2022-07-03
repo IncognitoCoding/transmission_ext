@@ -10,7 +10,7 @@ transmission_ext is a customizable transmission torrent extension program for us
 * The YAML file allows updating on the fly, and each loop will use the updated YAML configuration.
 
 ## Setup Recommendations & Setup Hints:
-transmission_remove is a middleman automator for use with transmission-remote. You must install transmission-cli (sudo apt install transmission-cli) on your Linux host to use transmission_remove.
+transmission_remove is a middleman automator for use with transmission-remote. You must install transmission-cli (sudo apt install transmission-cli) on your Linux host to use transmission_ext.
 
 Manual Usage Reference:
 https://manpages.debian.org/testing/transmission-cli/transmission-remote.1.en.html
