@@ -212,13 +212,16 @@ def main():
     if not os.path.exists(save_log_path):
         os.makedirs(save_log_path)
 
-    # Removes existing log files if they exist.
-    for file in os.listdir(save_log_path):
-        filename = os.fsdecode(file)
-        # Gets all log files.
-        if filename.endswith(".log") or list(filename)[-1].isdigit():
-            log_file_path = os.path.join(save_log_path, filename)
-            os.remove(log_file_path)
+    # Sets the log removal to False. Enable True for any debug testing.
+    remove_log: bool = False
+    if remove_log:
+        # Removes existing log files if they exist.
+        for file in os.listdir(save_log_path):
+            filename = os.fsdecode(file)
+            # Gets all log files.
+            if filename.endswith(".log") or list(filename)[-1].isdigit():
+                log_file_path = os.path.join(save_log_path, filename)
+                os.remove(log_file_path)
 
     # Sets the YAML file configuration location.
     yaml_file_path = os.path.abspath(f"{main_script_path}/settings.yaml")

@@ -78,7 +78,7 @@ handlers:
 
 loggers:
   flowchart:
-    level: INFO
+    level: ERROR
     handlers: [transmission_remove_flowchart_log_file]
     propagate: no
   __main__:
