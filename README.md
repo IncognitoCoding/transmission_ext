@@ -31,8 +31,7 @@ The sample YAML configuration file has plenty of notes to help explain the setup
             Step 4.1.1:  Create a new service file.
                 Run: cd /lib/systemd/system
                 Run: sudo nano transmission_ext.service
-                    Note1: The service account needs to have docker socket access. The root user is added below as an example.
-                    Note2: A delayed start can help ensure all processes start before monitoring starts. Your "TimeoutStartSec" must be greater than the "ExecStartPre".
+                    Note1: A delayed start can help ensure all processes start before monitoring starts. Your "TimeoutStartSec" must be greater than the "ExecStartPre".
                     Paste:
                         Description=transmission_ext
                         After=multi-user.target
