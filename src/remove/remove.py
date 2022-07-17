@@ -6,6 +6,7 @@ import logging
 from typing import Union
 from time import sleep
 import shutil
+import re
 
 # Local Dataclasses
 from common.common import StartupSettings
@@ -25,7 +26,7 @@ __author__ = "IncognitoCoding"
 __copyright__ = "Copyright 2021, remove"
 __credits__ = ["IncognitoCoding"]
 __license__ = "GPL"
-__version__ = "0.1"
+__version__ = "0.2"
 __maintainer__ = "IncognitoCoding"
 __status__ = "Development"
 
@@ -141,8 +142,8 @@ def start_remove(startup_settings: StartupSettings):
         # Some torrent_info output may be empty.
         if len(torrent_info) >= 1:
             exc_msg: Union[str, None] = None
-            exc_expected_number: Union[int, None] = None
-            exc_returned_number: Union[int, None] = None
+            exc_expected_result: Union[str, int, None] = None
+            exc_returned_result: Union[str, int, None] = None
             name: str = ""
             ratio: float = 0
             progress: str = ""
@@ -158,18 +159,24 @@ def start_remove(startup_settings: StartupSettings):
                 name: str = torrent_name[0].strip().replace("Name: ", "")
             else:
                 exc_msg = "The torrent 'name' did not return '1' entry."
-                exc_expected_number = 1
-                exc_returned_number = len(torrent_name)
+                exc_expected_result = 1
+                exc_returned_result = len(torrent_name)
             torrent_ratio: list[str] = [entry for entry in torrent_info if "Ratio:" in entry]
             if len(torrent_ratio) == 1:
                 # Replace Example:
                 #   Original: Ratio: 1.3
                 #   Replaced: 1.3
-                ratio: float = float(torrent_ratio[0].strip().replace("Ratio: ", ""))
+                possible_float: str = torrent_ratio[0].strip().replace("Ratio: ", "")
+                if "." in possible_float:
+                    ratio: float = float(possible_float)
+                else:
+                    exc_msg = "The torrent 'ratio' line did return a float value."
+                    exc_expected_result = "A float value within the string"
+                    exc_returned_result = torrent_ratio[0].strip()
             else:
                 exc_msg = "The torrent 'ratio' did not return '1' entry."
-                exc_expected_number = 1
-                exc_returned_number = len(torrent_ratio)
+                exc_expected_result = 1
+                exc_returned_result = len(torrent_ratio)
             torrent_progress: list[str] = [entry for entry in torrent_info if "Percent Done:" in entry]
             if len(torrent_progress) == 1:
                 # Replace Example:
@@ -178,8 +185,8 @@ def start_remove(startup_settings: StartupSettings):
                 progress: str = torrent_progress[0].strip().replace("Percent Done: ", "")
             else:
                 exc_msg = "The torrent 'progress' did not return '1' entry."
-                exc_expected_number = 1
-                exc_returned_number = len(torrent_progress)
+                exc_expected_result = 1
+                exc_returned_result = len(torrent_progress)
             torrent_stop_location: list[str] = [entry for entry in torrent_info if "Location:" in entry]
             if len(torrent_stop_location) == 1:
                 # Replace Example:
@@ -188,8 +195,8 @@ def start_remove(startup_settings: StartupSettings):
                 stop_location: str = torrent_stop_location[0].strip().replace("Location: ", "")
             else:
                 exc_msg = "The torrent 'stop_location' did not return '1' entry."
-                exc_expected_number = 1
-                exc_returned_number = len(torrent_stop_location)
+                exc_expected_result = 1
+                exc_returned_result = len(torrent_stop_location)
             torrent_state: list[str] = [entry for entry in torrent_info if "State:" in entry]
             if len(torrent_state) == 1:
                 # Replace Example:
@@ -198,8 +205,8 @@ def start_remove(startup_settings: StartupSettings):
                 state: str = torrent_state[0].strip().replace("State: ", "")
             else:
                 exc_msg = "The torrent 'state' did not return '1' entry."
-                exc_expected_number = 1
-                exc_returned_number = len(torrent_state)
+                exc_expected_result = 1
+                exc_returned_result = len(torrent_state)
 
             # Sets the torrent path.
             torrent_path = os.path.abspath(f"{startup_settings.root_download_path}/{stop_location}/{name}")
@@ -209,8 +216,8 @@ def start_remove(startup_settings: StartupSettings):
                 exc_args = {
                     "main_message": exc_msg,
                     "custom_type": TransmissionExtError,
-                    "expected_result": exc_expected_number,
-                    "returned_result": exc_returned_number,
+                    "expected_result": exc_expected_result,
+                    "returned_result": exc_returned_result,
                 }
                 raise TransmissionExtError(FCustomException(message_args=exc_args))
 

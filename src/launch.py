@@ -36,7 +36,7 @@ __author__ = "IncognitoCoding"
 __copyright__ = "Copyright 2021, launch"
 __credits__ = ["IncognitoCoding"]
 __license__ = "GPL"
-__version__ = "0.1"
+__version__ = "0.2"
 __maintainer__ = "IncognitoCoding"
 __status__ = "Development"
 
@@ -243,9 +243,9 @@ def main():
     logger_flowchart = logging.getLogger("flowchart")
     logger_flowchart.info(f"Flowchart --> Function: {get_function_name()}")
 
-    logger.info("#" * 80)
-    logger.info(" " * 31 + "Transmission Remove" + " " * 30)
-    logger.info("#" * 80)
+    logger.debug("#" * 80)
+    logger.debug(" " * 31 + "Transmission Remove" + " " * 30)
+    logger.debug("#" * 80)
 
     # Calls function to pull in the startup variables.
     startup_variables = get_startup_settings()
@@ -254,7 +254,7 @@ def main():
         # Starts the remove.
         start_remove(startup_settings=startup_variables)
 
-        logger.info(f"{startup_variables.remove_sleep} seconds until next torrent remove check")
+        logger.debug(f"{startup_variables.remove_sleep} seconds until next torrent remove check")
         # Sleeps for the amount of seconds set in the YAML file.
         sleep(startup_variables.remove_sleep)
     except Exception as exc:
@@ -285,8 +285,10 @@ def main():
 
         # Raises the exception based on the thrown a handled fexception or unhandled exception.
         if exc_args:
+            logger.error(GeneralTransmissionExtError(exc))
             raise GeneralTransmissionExtError(exc)
         else:
+            logger.error(exc)
             raise
 
 
