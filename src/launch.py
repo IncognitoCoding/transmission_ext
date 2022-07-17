@@ -254,7 +254,7 @@ def main():
         # Starts the remove.
         start_remove(startup_settings=startup_variables)
 
-        logger.debug(f"{startup_variables.remove_sleep} seconds until next torrent remove check")
+        logger.info(f"{startup_variables.remove_sleep} seconds until next torrent remove check")
         # Sleeps for the amount of seconds set in the YAML file.
         sleep(startup_variables.remove_sleep)
     except Exception as exc:

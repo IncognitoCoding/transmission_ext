@@ -26,7 +26,7 @@ __author__ = "IncognitoCoding"
 __copyright__ = "Copyright 2021, remove"
 __credits__ = ["IncognitoCoding"]
 __license__ = "GPL"
-__version__ = "0.2"
+__version__ = "0.3"
 __maintainer__ = "IncognitoCoding"
 __status__ = "Development"
 
@@ -169,6 +169,8 @@ def start_remove(startup_settings: StartupSettings):
                 possible_float: str = torrent_ratio[0].strip().replace("Ratio: ", "")
                 if "." in possible_float:
                     ratio: float = float(possible_float)
+                elif "None" in possible_float:
+                    ratio: float = float(0.0)
                 else:
                     exc_msg = "The torrent 'ratio' line did return a float value."
                     exc_expected_result = "A float value within the string"
